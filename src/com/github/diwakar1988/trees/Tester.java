@@ -1,4 +1,4 @@
-package com.github.diwakar1988;
+package com.github.diwakar1988.trees;
 
 public class Tester {
 
