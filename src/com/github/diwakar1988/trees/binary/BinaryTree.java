@@ -111,7 +111,7 @@ public abstract class BinaryTree {
 		// 2) Initialize current node as root
 		// 3) iterate while stack is not empty and do follwing
 		//// a) Pop the top item from stack.
-		//// b) Print the popped item, 
+		//// b) Print the popped item,
 		//// c) Push root->right
 		//// d) Push root->left
 
@@ -123,10 +123,10 @@ public abstract class BinaryTree {
 			while (!stack.isEmpty()) {
 				Node n = stack.pop();
 				output.add(n.data);
-				if (n.right!=null) {
+				if (n.right != null) {
 					stack.push(n.right);
 				}
-				if (n.left!=null) {
+				if (n.left != null) {
 					stack.push(n.left);
 				}
 			}
@@ -141,5 +141,50 @@ public abstract class BinaryTree {
 		output.add(root.data);
 		preOrder(root.left, output);
 		preOrder(root.right, output);
+	}
+
+	// DFS example
+	public ArrayList<Integer> getPostOrder(boolean resursive) {
+		ArrayList<Integer> output = new ArrayList<>();
+		if (resursive) {
+			postOrder(root, output);
+		} else {
+			postOrderIterative(root, output);
+		}
+		return output;
+	}
+
+	// LEFT->RIGHT-->ROOT
+	private void postOrderIterative(Node root, ArrayList<Integer> output) {
+		Node current = root;
+		Stack<Node> stack = new Stack<>();
+		while (current != null || !stack.isEmpty()) {
+			if (current != null) {
+				stack.push(current);
+				current = current.left;
+			} else {
+				Node temp = stack.peek().right;
+				if (temp == null) {
+					temp = stack.pop();
+					output.add(temp.data);
+					while (!stack.isEmpty() && stack.peek().right == temp) {
+						temp = stack.pop();
+						output.add(temp.data);
+					}
+				} else {
+					current = temp;
+				}
+			}
+		}
+	}
+
+	// LEFT->RIGHT-->ROOT
+	private void postOrder(Node root, ArrayList<Integer> output) {
+		if (root == null) {
+			return;
+		}
+		postOrder(root.left, output);
+		postOrder(root.right, output);
+		output.add(root.data);
 	}
 }
